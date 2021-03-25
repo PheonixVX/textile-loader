@@ -4,13 +4,13 @@ plugins {
 	id 'eclipse'
 	id 'maven-publish'
 	id("org.cadixdev.licenser") version "0.5.0"
-	id("fabric-loom") version "0.5-SNAPSHOT"
+	id 'textile-loom' version '0.5.1+build12'
 }
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-archivesBaseName = "fabric-loader"
+archivesBaseName = "textile-loader"
 
 // Fetch build number from Jenkins
 def ENV = System.getenv()
@@ -19,6 +19,10 @@ version = version + (ENV.GITHUB_ACTIONS ? "" : "+local")
 repositories {
 	mavenCentral()
 	jcenter()
+	maven {
+		name = "concern"
+		url = "https://maven.concern.i.ng/"
+	}
 	maven {
 		name = 'Fabric'
 		url = 'https://maven.fabricmc.net/'
@@ -30,8 +34,8 @@ repositories {
 }
 
 dependencies {
-	minecraft "com.mojang:minecraft:1.16.4"
-	mappings "net.fabricmc:yarn:1.16.4+build.9:v2"
+	minecraft "com.mojang:minecraft:inf-20100618"
+	mappings "net.textilemc:yarrn:inf-20100618+build20d353:v2"
 
 	// fabric-loader dependencies
 	implementation "org.ow2.asm:asm:${project.asm_version}"
@@ -49,7 +53,7 @@ dependencies {
 
 	implementation('net.fabricmc:sponge-mixin:0.9.2+mixin.0.8.2') {
 		exclude module: 'launchwrapper'
-		exclude module: 'guava'
+		//exclude module: 'guava'
 	}
 	implementation 'net.fabricmc:tiny-mappings-parser:0.2.2.14'
 	implementation 'net.fabricmc:tiny-remapper:0.3.0.70'
@@ -68,6 +72,14 @@ dependencies {
 
 	// Unit testing for mod metadata
 	testImplementation('org.junit.jupiter:junit-jupiter:5.6.2')
+}
+
+minecraft {
+	intermediaryUrl = {
+		return "https://maven.concern.i.ng/net/textilemc/intermediary/" + it + "/intermediary-" + it + "-v2.jar"
+	}
+
+	clientOnly = true
 }
 
 processResources {

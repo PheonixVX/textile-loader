@@ -1,6 +1,10 @@
 pluginManagement {
 	repositories {
 		maven {
+			name = "concern"
+			url = "https://maven.concern.i.ng/"
+		}
+		maven {
 			url = "https://maven.fabricmc.net"
 			name = "FabricMC"
 		}
